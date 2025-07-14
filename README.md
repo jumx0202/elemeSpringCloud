@@ -1,4 +1,4 @@
-# 饿了么外卖平台 (Ele.me Clone) - 基于Spring Cloud微服务架构
+# 饿了么外卖平台 - 基于Spring Cloud微服务架构
 
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2023.0.0-blue.svg)](https://spring.io/projects/spring-cloud)
@@ -7,7 +7,7 @@
 [![Sentinel](https://img.shields.io/badge/Sentinel-1.8.x-red.svg)](https://github.com/alibaba/Sentinel)
 [![Docker](https://img.shields.io/badge/Docker-Container-blue.svg)](https://www.docker.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Author](https://img.shields.io/badge/Author-Jumingxuan-lightgrey.svg)](https://github.com/jumx0202)
+[![Author](https://img.shields.io/badge/Author-ORG233-lightgrey.svg)](https://github.com/jumx0202)
 
 ## 1. 项目简介
 
@@ -210,7 +210,7 @@ npm run dev
 
 ## 7. 作者
 
-- **鞠明轩 (Jumingxuan)**
+- **橘子ORG🍊**
 - 云南大学 软件学院
 
 ## 8. 许可证
