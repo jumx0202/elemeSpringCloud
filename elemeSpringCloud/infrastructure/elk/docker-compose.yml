@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  # Elasticsearch
+  elasticsearch:
+    image: elasticsearch:7.17.0
+    platform: linux/amd64
+    container_name: eleme-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - xpack.ml.enabled=false
+      - http.cors.enabled=true
+      - http.cors.allow-origin="*"
+      - http.cors.allow-headers=X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization
+      - http.cors.allow-credentials=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elk
+
+  # Logstash
+  logstash:
+    image: logstash:7.17.0
+    platform: linux/amd64
+    container_name: eleme-logstash
+    depends_on:
+      - elasticsearch
+    environment:
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5001:5000"
+      - "5044:5044"
+    networks:
+      - elk
+
+  # Kibana
+  kibana:
+    image: kibana:7.17.0
+    platform: linux/amd64
+    container_name: eleme-kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+
+  # Filebeat (可选，用于收集日志文件)
+  filebeat:
+    image: elastic/filebeat:7.17.0
+    platform: linux/amd64
+    container_name: eleme-filebeat
+    user: root
+    depends_on:
+      - elasticsearch
+      - logstash
+    volumes:
+      - ./filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ../logs:/var/log/eleme
+      - filebeat-data:/var/log/filebeat
+    networks:
+      - elk
+    environment:
+      - strict.perms=false
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elasticsearch-data:
+    driver: local 
+  filebeat-data:
+    driver: local 

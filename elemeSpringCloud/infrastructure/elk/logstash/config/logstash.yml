@@ -1,0 +1,24 @@
+http.host: "0.0.0.0"
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
+
+# 管道配置
+pipeline.ordered: auto
+pipeline.workers: 2
+pipeline.batch.size: 125
+pipeline.batch.delay: 50
+
+# 日志配置
+log.level: info
+path.logs: /var/log/logstash
+
+# 配置重载
+config.reload.automatic: true
+config.reload.interval: 3s
+
+# 死信队列
+dead_letter_queue.enable: true
+dead_letter_queue.max_bytes: 1024mb
+
+# 节点配置
+node.name: eleme-logstash 

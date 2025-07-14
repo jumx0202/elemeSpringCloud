@@ -1,0 +1,179 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: eleme-gateway
+  
+  # 完全禁用Nacos配置中心，避免配置冲突
+  # config:
+  #   import: "optional:nacos:eleme-gateway.yml"
+  
+  cloud:
+    # 完全禁用负载均衡器
+    loadbalancer:
+      enabled: false
+      ribbon:
+        enabled: false
+      cache:
+        enabled: false
+    
+    # 禁用Nacos服务发现和配置，避免自动负载均衡
+    nacos:
+      discovery:
+        enabled: false
+        # server-addr: localhost:8848
+        # namespace: public
+        # group: DEFAULT_GROUP
+      config:
+        import-check:
+          enabled: false
+        # server-addr: localhost:8848
+        # file-extension: yml
+        # namespace: public
+        # group: DEFAULT_GROUP
+        # shared-configs:
+        #   - data-id: eleme-gateway.yml
+        #     group: DEFAULT_GROUP
+        #     refresh: true
+    
+    gateway:
+      # 完全禁用服务发现
+      discovery:
+        locator:
+          enabled: false
+      # 全局CORS配置
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: false
+            maxAge: 3600
+      routes:
+        # 用户服务路由 - 直接路由
+        - id: user-service
+          uri: http://localhost:8001
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+        
+        # 商家服务路由 - 直接路由
+        - id: business-service
+          uri: http://localhost:8002
+          predicates:
+            - Path=/api/business/**
+          filters:
+            - StripPrefix=1
+        
+        # 食物服务路由 - 直接路由
+        - id: food-service
+          uri: http://localhost:8003
+          predicates:
+            - Path=/api/food/**
+          filters:
+            - StripPrefix=1
+        
+        # 订单服务路由 - 直接路由
+        - id: order-service
+          uri: http://localhost:8004
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+        
+        # 支付服务路由 - 直接路由
+        - id: payment-service
+          uri: http://localhost:8005
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - StripPrefix=1
+        
+        # 通知服务路由 - 直接路由
+        - id: notification-service
+          uri: http://localhost:8006
+          predicates:
+            - Path=/api/notification/**
+          filters:
+            - StripPrefix=1
+        
+        # 验证码服务路由 - 直接路由
+        - id: captcha-service
+          uri: http://localhost:8007
+          predicates:
+            - Path=/api/captcha/**
+          filters:
+            - StripPrefix=1
+    
+    # 禁用Sentinel，避免额外的负载均衡问题
+    # sentinel:
+    #   transport:
+    #     dashboard: localhost:8080
+    #     port: 8719
+    #   eager: true
+    #   log:
+    #     dir: logs/sentinel
+  
+  # 禁用Redis，简化配置
+  # redis:
+  #   host: localhost
+  #   port: 6379
+  #   password: redis123
+  #   database: 0
+  #   jedis:
+  #     pool:
+  #       max-active: 8
+  #       max-wait: -1
+  #       max-idle: 8
+  #       min-idle: 0
+  #   timeout: 3000ms
+
+# SpringDoc 配置
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    config-url: /v3/api-docs/swagger-config
+    disable-swagger-default-url: true
+  info:
+    title: 饿了么微服务API文档
+    description: 整合所有微服务的API文档，包括用户、商家、食物、订单、支付、通知、验证码等服务
+    version: 1.0.0
+    contact:
+      name: 开发团队
+      email: dev@eleme.com
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+# 日志配置
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.loadbalancer: OFF
+    org.example: DEBUG
+  file:
+    name: ../infrastructure/logs/gateway/gateway.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n" 

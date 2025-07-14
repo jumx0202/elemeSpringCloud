@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  # MySQL 主数据库
+  mysql-master:
+    image: mysql:latest
+    platform: linux/amd64
+    container_name: mysql-master
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=eleme_db
+      - MYSQL_USER=eleme
+      - MYSQL_PASSWORD=eleme123
+    volumes:
+      - mysql-master-data:/var/lib/mysql
+      - ./mysql/config/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - eleme-network
+
+  # Nacos 注册中心
+  nacos:
+    image: nacos/nacos-server:latest
+    platform: linux/amd64
+    container_name: nacos-server
+    ports:
+      - "8848:8080"
+      - "9848:9848"
+    environment:
+      - MODE=standalone
+      - JVM_XMS=256m
+      - JVM_XMX=256m
+      - NACOS_AUTH_ENABLE=false
+      - NACOS_AUTH_TOKEN=SecretKey012345678901234567890123456789012345678901234567890123456789
+      - NACOS_AUTH_IDENTITY_KEY=serverIdentity
+      - NACOS_AUTH_IDENTITY_VALUE=security
+      - NACOS_CORE_AUTH_ENABLED=false
+      - NACOS_CORE_AUTH_CONSOLE_ENABLED=false
+      - NACOS_CORE_AUTH_ADMIN_ENABLED=false
+    volumes:
+      - ./nacos/logs:/home/nacos/logs
+      - ./nacos/data:/home/nacos/data
+    networks:
+      - eleme-network
+
+  # Redis 缓存
+  redis:
+    image: redis:latest
+    platform: linux/amd64
+    container_name: redis-server
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+      - ./redis/redis.conf:/etc/redis/redis.conf
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    networks:
+      - eleme-network
+
+  # Sentinel Dashboard
+  sentinel-dashboard:
+    image: bladex/sentinel-dashboard:latest
+    platform: linux/amd64
+    container_name: sentinel-dashboard
+    ports:
+      - "8080:8080"
+    environment:
+      - JVM_OPTS=-Xmx256m -Xms256m
+    networks:
+      - eleme-network
+
+networks:
+  eleme-network:
+    driver: bridge
+
+volumes:
+  mysql-master-data:
+    driver: local
+  redis-data:
+    driver: local 

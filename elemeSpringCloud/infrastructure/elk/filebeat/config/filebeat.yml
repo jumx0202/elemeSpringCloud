@@ -1,0 +1,151 @@
+filebeat.inputs:
+  # 用户服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/user-service/*.log
+    fields:
+      service: user-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 商家服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/business-service/*.log
+    fields:
+      service: business-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 食物服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/food-service/*.log
+    fields:
+      service: food-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 订单服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/order-service/*.log
+    fields:
+      service: order-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 支付服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/payment-service/*.log
+    fields:
+      service: payment-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 通知服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/notification-service/*.log
+    fields:
+      service: notification-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 验证码服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/captcha-service/*.log
+    fields:
+      service: captcha-service
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 网关服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/gateway/*.log
+    fields:
+      service: gateway
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+  # 监控服务日志
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/eleme/monitor/*.log
+    fields:
+      service: monitor
+      environment: dev
+    fields_under_root: true
+    multiline.pattern: '^\d{4}-\d{2}-\d{2}'
+    multiline.negate: true
+    multiline.match: after
+
+# 处理器
+processors:
+  - add_host_metadata:
+      when.not.contains.tags: forwarded
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+# 输出到Logstash
+output.logstash:
+  hosts: ["logstash:5044"]
+  compression_level: 3
+  bulk_max_size: 1024
+  timeout: 30s
+
+# 日志设置
+logging.level: info
+logging.to_files: true
+logging.files:
+  path: /var/log/filebeat
+  name: filebeat
+  keepfiles: 7
+  permissions: 0644
+
+# 监控设置
+monitoring.enabled: true
+monitoring.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+
+# 设置名称
+name: eleme-filebeat
+
+# 标签
+tags: ["eleme", "microservice", "dev"] 

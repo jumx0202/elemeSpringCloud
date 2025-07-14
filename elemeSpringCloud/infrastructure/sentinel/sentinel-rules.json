@@ -1,0 +1,131 @@
+[
+  {
+    "resource": "com.example.controller.UserController",
+    "count": 10,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 500
+  },
+  {
+    "resource": "com.example.controller.BusinessController",
+    "count": 20,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 500
+  },
+  {
+    "resource": "com.example.controller.FoodController",
+    "count": 30,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 500
+  },
+  {
+    "resource": "com.example.controller.OrderController",
+    "count": 15,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 500
+  },
+  {
+    "resource": "com.example.controller.PaymentController",
+    "count": 10,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 1000
+  },
+  {
+    "resource": "com.example.controller.NotificationController",
+    "count": 25,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 500
+  },
+  {
+    "resource": "com.example.controller.CaptchaController",
+    "count": 50,
+    "grade": 1,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "warmUpPeriodSec": 10,
+    "maxQueueingTimeMs": 200
+  },
+  {
+    "resource": "createOrder",
+    "count": 0.5,
+    "grade": 0,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "timeWindow": 10,
+    "minRequestAmount": 5,
+    "slowRatioThreshold": 0.5,
+    "statIntervalMs": 1000
+  },
+  {
+    "resource": "processPayment",
+    "count": 0.6,
+    "grade": 0,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "timeWindow": 15,
+    "minRequestAmount": 3,
+    "slowRatioThreshold": 0.6,
+    "statIntervalMs": 1000
+  },
+  {
+    "resource": "sendEmail",
+    "count": 0.4,
+    "grade": 0,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "timeWindow": 5,
+    "minRequestAmount": 3,
+    "slowRatioThreshold": 0.4,
+    "statIntervalMs": 1000
+  },
+  {
+    "resource": "generateCaptcha",
+    "count": 0.8,
+    "grade": 0,
+    "limitApp": "default",
+    "strategy": 0,
+    "controlBehavior": 0,
+    "clusterMode": false,
+    "timeWindow": 3,
+    "minRequestAmount": 5,
+    "slowRatioThreshold": 0.8,
+    "statIntervalMs": 1000
+  }
+] 

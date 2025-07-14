@@ -1,0 +1,116 @@
+server:
+  port: 8009
+
+spring:
+  application:
+    name: eleme-monitor
+  
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/eleme_monitor?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  
+  # Spring Boot Admin配置
+  boot:
+    admin:
+      ui:
+        title: "饿了么微服务监控中心"
+        brand: "Eleme Monitor"
+      server:
+        # 启用详细健康检查
+        enabled: true
+      client:
+        url: http://localhost:8009
+        instance:
+          management-url: http://localhost:8009/actuator
+          health-url: http://localhost:8009/actuator/health
+          service-url: http://localhost:8009/
+  
+  # 安全配置
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: ADMIN
+
+# Nacos配置
+cloud:
+  nacos:
+    discovery:
+      server-addr: localhost:8848
+      namespace: eleme-dev
+    config:
+      server-addr: localhost:8848
+      file-extension: yml
+      namespace: eleme-dev
+
+# 管理端点配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  
+  # 度量标签配置
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    export:
+      prometheus:
+        enabled: true
+        step: 10s
+  
+  # 健康检查配置
+  health:
+    diskspace:
+      enabled: true
+    redis:
+      enabled: true
+    db:
+      enabled: true
+
+# 日志配置
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    de.codecentric.boot.admin: DEBUG
+    org.example: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%logger{50}] - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%logger{50}] - %msg%n"
+  file:
+    name: logs/monitor.log
+    max-size: 10MB
+    max-history: 30
+
+# 分布式追踪配置
+zipkin:
+  base-url: http://localhost:9411
+  sender:
+    type: web
+  
+sleuth:
+  sampler:
+    probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411 

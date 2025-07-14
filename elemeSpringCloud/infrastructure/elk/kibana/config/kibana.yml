@@ -1,0 +1,43 @@
+server.name: "eleme-kibana"
+server.host: "0.0.0.0"
+server.port: 5601
+server.publicBaseUrl: "http://localhost:5601"
+
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+elasticsearch.requestTimeout: 30000
+elasticsearch.shardTimeout: 30000
+
+# 国际化设置
+i18n.locale: "zh-CN"
+
+# 使用默认日志配置
+
+# 监控设置
+monitoring.ui.container.elasticsearch.enabled: true
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["http://elasticsearch:9200"]
+
+# 默认索引模式
+kibana.index: ".kibana"
+kibana.defaultAppId: "discover"
+
+# 安全设置 (开发环境)
+xpack.security.enabled: false
+xpack.encryptedSavedObjects.enabled: false
+
+# 图表设置
+map.includeElasticMapsService: false
+map.proxyElasticMapsServiceInMaps: false
+
+# 时间字段
+timelion.enabled: true
+
+# 保存的对象
+savedObjects.maxImportPayloadBytes: 26214400
+
+# 可视化设置
+visualization.colorMapping: {}
+
+# 控制台设置
+console.enabled: true
+console.ui.enabled: true 

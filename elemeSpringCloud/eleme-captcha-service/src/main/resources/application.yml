@@ -1,0 +1,61 @@
+server:
+  port: 8007
+
+spring:
+  application:
+    name: eleme-captcha-service
+  
+  config:
+    import: "optional:nacos:eleme-captcha-service.yml"
+  
+  profiles:
+    active: dev
+  
+  # 禁用数据库自动配置
+  autoconfigure:
+    exclude: 
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+  
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        namespace: public
+        group: DEFAULT_GROUP
+      config:
+        server-addr: localhost:8848
+        namespace: public
+        group: DEFAULT_GROUP
+        file-extension: yml
+        shared-configs:
+          - data-id: eleme-common.yml
+            refresh: true
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 8727
+      eager: true
+      log:
+        dir: logs/sentinel
+  redis:
+    host: localhost
+    port: 6379
+    password: 
+    database: 6
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
+    timeout: 5000ms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

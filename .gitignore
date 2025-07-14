@@ -1,0 +1,83 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Node.js (for Vue.js frontend)
+elemeVue/node_modules/
+elemeVue/dist/
+elemeVue/.nuxt/
+elemeVue/.env.local
+elemeVue/.env.*.local
+elemeVue/npm-debug.log*
+elemeVue/yarn-debug.log*
+elemeVue/yarn-error.log*
+
+# Database data
+elemeSpringCloud/infrastructure/mysql/master/data/
+elemeSpringCloud/infrastructure/nacos/data/
+
+# Logs
+elemeSpringCloud/infrastructure/logs/
+logs/
+*.log
+
+# Redis data
+dump.rdb
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~

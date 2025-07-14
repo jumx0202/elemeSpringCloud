@@ -1,0 +1,82 @@
+@startuml 饿了么外卖系统用例图
+
+!theme plain
+left to right direction
+
+title 饿了么外卖系统用例图
+
+' 定义角色
+actor :用户: as User
+
+rectangle "饿了么外卖系统" {
+  ' 用户账户管理
+  (用户注册) as UC1
+  (用户登录) as UC2
+  (个人信息管理) as UC3
+  
+  ' 商家和商品浏览
+  (浏览商家) as UC4
+  (搜索商家) as UC5
+  (浏览商品) as UC6
+  (搜索商品) as UC7
+  
+  ' 订单管理
+  (创建订单) as UC8
+  (查看订单) as UC9
+  (取消订单) as UC10
+  
+  ' 支付和通知
+  (支付订单) as UC11
+  (查看支付记录) as UC12
+  (接收通知) as UC13
+  
+  ' 验证码用例
+  (验证码验证) as UC17
+  
+  ' 商家相关用例
+  (商家登录) as UC14
+  (修改商铺信息) as UC15
+  (维护食品信息) as UC16
+}
+
+actor :商家: as Business
+
+' 布局控制
+User -left-> UC1
+User -left-> UC2
+User -left-> UC3
+
+User -left-> UC4
+User -left-> UC5
+User -left-> UC6
+User -left-> UC7
+
+User -left-> UC8
+User -left-> UC9
+User -left-> UC10
+
+User -left-> UC11
+User -left-> UC12
+User -left-> UC13
+
+' 商家与用例的关联
+UC14 <-right- Business
+UC15 <-right- Business
+UC16 <-right- Business
+
+' 用例之间的关系 - 简化关系减少交叉
+UC1 ..> UC17 : <<include>>
+UC2 ..> UC17 : <<include>>
+UC14 ..> UC17 : <<include>>
+UC8 ..> UC2 : <<include>>
+UC11 ..> UC8 : <<extend>>
+UC13 ..> UC11 : <<include>>
+
+' 注释
+note bottom of UC1 : 邮箱验证
+note bottom of UC2 : 失败3次需图形验证码
+note bottom of UC8 : 需要登录和选择商品
+note bottom of UC11 : 支持多种支付方式
+note bottom of UC14 : 商家身份验证
+
+@enduml 
